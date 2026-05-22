@@ -23,6 +23,7 @@ async def main():
     chili_flakes = [load("chili_flakes")]
     dill_pickle = [load("dill_pickle")]
     radicchio = [load("radicchio")]
+    arrabbiata_sauce = [load("arrabbiata_sauce"), tomato, chili_flakes]
     taco = load("taco")
     food_positions = [
         (140, 36),
@@ -34,6 +35,7 @@ async def main():
     all_foods = [
         [tomato, dill_pickle, radicchio, None, None],
         [chili_flakes, lemon, None, None, None],
+        [arrabbiata_sauce, None, None, None, None],
     ]
     main_cooking_area = [(440, 300), (840, 700)]
     food_in_cooking_area = []
