@@ -14,26 +14,6 @@ fpsClock = pygame.time.Clock()
 
 
 async def main():
-    food_positions = [
-        (140, 36),
-        (340, 36),
-        (540, 36),
-        (740, 36),
-        (940, 36),
-    ]  # food size + space in between should be 200 pixels
-    all_foods = [
-        [None, None, None, None, None],
-        [None, None, None, None, None],
-        [None, None, None, None, None],
-        [None, None, None, None, None],
-        [None, None, None, None, None],
-    ]
-    main_cooking_area = [(440, 300), (840, 700)]
-    food_in_cooking_area = []
-    foods_shown = all_foods[0]
-    holding_item = False
-    running = True
-
     def load(filename):
         filename = pygame.image.load(os.path.join(f"{filename}.png")).convert_alpha()
         return filename
@@ -43,8 +23,26 @@ async def main():
     chili_flakes = [load("chili_flakes")]
     dill_pickle = [load("dill_pickle")]
     radicchio = [load("radicchio")]
+    taco = load("taco")
+    food_positions = [
+        (140, 36),
+        (340, 36),
+        (540, 36),
+        (740, 36),
+        (940, 36),
+    ]  # food size + space in between should be 200 pixels
+    all_foods = [
+        [tomato, dill_pickle, radicchio, None, None],
+        [chili_flakes, lemon, None, None, None],
+    ]
+    main_cooking_area = [(440, 300), (840, 700)]
+    food_in_cooking_area = []
+    foods_shown = all_foods[0]
+    holding_item = False
+    running = True
 
     while running:
+        screen.fill((0, 0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -71,7 +69,7 @@ async def main():
                             if mouse_pos[0] < box[1] + 201 and mouse_pos[0] >= box[0]:
                                 holding_item = foods_shown[food_positions.index(box)]
 
-        screen.fill((0, 0, 0))
+        screen.blit(taco, main_cooking_area[0])
         pygame.display.flip()
         fpsClock.tick(fps)
         await asyncio.sleep(0)
