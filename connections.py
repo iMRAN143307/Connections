@@ -31,15 +31,15 @@ async def main():
     current_index = 0
     background = load_and_scale("background")
     tomato = [load("tomato"), 50, 30, 5, 5, 60, 0]
-    dill_pickle = [load("dill_pickle"), 5, 80, 5, 70, 20, 0]
+    dill_pickle = [load("dill_pickle"), 5, 80, 20, 70, 20, 0]
     radicchio = [load("radicchio"), 5, 10, 90, 5, 15, 1]
     corned_beef = [load("corned_beef"), 5, 5, 5, 85, 90, 0]
-    pickled_jalapenos = [None, 10, 75, 10, 55, 20, 2]
-    lemon = [load("lemon"), 10, 90, 25, 0, 0, 0]
+    pickled_jalapenos = [load("pickled_jalapenos"), 10, 75, 10, 55, 20, 2]
+    lemon = [load("lemon"), 10, 90, 30, 0, 0, 0]
     chili_flakes = [load("chili_flakes"), 0, 5, 15, 5, 15, 3]
     guacamole = [load("guacamole"), 10, 30, 5, 25, 55, 0]
-    soy_sauce = [None, 5, 15, 10, 90, 65, 0]
-    honey = [None, 90, 5, 0, 0, 5, 0]
+    soy_sauce = [load("soy_sauce"), 5, 15, 35, 90, 65, 0]
+    honey = [load("honey"), 90, 5, 0, 0, 5, 0]
     arrabbiata_sauce = [
         load("arrabbiata_sauce"),
         60,
@@ -51,18 +51,28 @@ async def main():
         tomato,
         chili_flakes,
     ]
-    carne_deshebrada = [
-        load("carne_deshebrada"),
+    shredded_beef = [
+        load("shredded_beef"),
         15,
         70,
-        10,
+        30,
         65,
         85,
         0,
         corned_beef,
         lemon,
     ]
-    cowboy_candy = [None, 80, 60, 15, 50, 30, 2, pickled_jalapenos, honey]
+    cowboy_candy = [
+        load("pickled_jalapenos"),
+        80,
+        60,
+        15,
+        50,
+        30,
+        2,
+        pickled_jalapenos,
+        honey,
+    ]
     radicchio_cream = [
         load("radicchio_cream"),
         15,
@@ -74,7 +84,7 @@ async def main():
         radicchio,
         guacamole,
     ]
-    shoyuzuke = [None, 25, 65, 10, 80, 80, 0, dill_pickle, soy_sauce]
+    soy_pickle = [load("soy_pickle"), 25, 65, 30, 80, 80, 0, dill_pickle, soy_sauce]
     taco = load("taco")
     food_positions = [
         (140, 36),
@@ -86,7 +96,7 @@ async def main():
     all_foods = [
         [tomato, dill_pickle, radicchio, corned_beef, pickled_jalapenos],
         [chili_flakes, lemon, guacamole, soy_sauce, honey],
-        [arrabbiata_sauce, carne_deshebrada, cowboy_candy, radicchio_cream, shoyuzuke],
+        [arrabbiata_sauce, shredded_beef, cowboy_candy, radicchio_cream, soy_pickle],
     ]
     main_cooking_area = [(440, 300), (840, 700)]
     food_in_cooking_area = []
