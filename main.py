@@ -30,6 +30,8 @@ async def main():
 
     current_index = 0
     background = load_and_scale("background")
+    arrow_left = load("arrow_left")
+    arrow_right = load("arrow_right")
     tomato = [load("tomato"), 50, 30, 5, 5, 60, 0]
     dill_pickle = [load("dill_pickle"), 5, 80, 20, 70, 20, 0]
     radicchio = [load("radicchio"), 5, 10, 90, 5, 15, 1]
@@ -63,7 +65,7 @@ async def main():
         lemon,
     ]
     cowboy_candy = [
-        load("pickled_jalapenos"),
+        load("cowboy_candy"),
         80,
         60,
         15,
@@ -92,7 +94,7 @@ async def main():
         (540, 36),
         (740, 36),
         (940, 36),
-    ]  # food size + space in between should be 200 pixels
+    ]
     all_foods = [
         [tomato, dill_pickle, radicchio, corned_beef, pickled_jalapenos],
         [chili_flakes, lemon, guacamole, soy_sauce, honey],
@@ -100,7 +102,8 @@ async def main():
     ]
     main_cooking_area = [(440, 300), (840, 700)]
     food_in_cooking_area = []
-    foods_shown = all_foods[0]
+    cycle_food = 0
+    foods_shown = all_foods[cycle_food]
     holding_item = False
     running = True
 
@@ -111,7 +114,6 @@ async def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
-                    """this is the left click handler, mouse pos is now a (x,y) tuple"""
                     if holding_item:
                         if (
                             mouse_pos[0] >= main_cooking_area[0][0]
@@ -130,12 +132,23 @@ async def main():
                         for box in food_positions:
                             if mouse_pos[0] < box[1] + 201 and mouse_pos[0] >= box[0]:
                                 holding_item = foods_shown[food_positions.index(box)]
+                    if mouse_pos[1] < 203 and mouse_pos[1] > 61:
+                        if mouse_pos[0] >= 0 and mouse_pos[0] < 141:
+                            cycle_food -= 1
+                            cycle_food = cycle_food % 3
+                            foods_shown = all_foods[cycle_food]
+                        elif mouse_pos[0] > 1141 and mouse_pos[0] <= 1280:
+                            cycle_food += 1
+                            cycle_food = cycle_food % 3
+                            foods_shown = all_foods[cycle_food]
             if event.type == SONG_END:
                 current_index = (current_index + 1) % len(playlist)
                 pygame.mixer.music.load(playlist[current_index])
                 pygame.mixer.music.play()
         screen.blit(background, (0, 0))
         screen.blit(taco, main_cooking_area[0])
+        screen.blit(arrow_left, (0, 62))
+        screen.blit(arrow_right, (1140, 62))
         for i, food in enumerate(foods_shown):
             screen.blit(food[0], food_positions[i])
         pygame.display.flip()
