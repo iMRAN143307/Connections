@@ -5,9 +5,14 @@ import pygame
 
 pygame.mixer.pre_init(44100, -16, 2, 4096)
 pygame.init()
-pygame.mixer.music.load("taconnector1.wav")
-pygame.mixer.music.play()  # Loop indefinitely
-pygame.mixer.music.queue("taconnector2.wav")
+song0 = "taconnector1.wav"
+song1 = "taconnector2.wav"
+
+playlist = [song0, song1]
+pygame.mixer.music.load(song0)
+pygame.mixer.music.play()
+SONG_END = pygame.USEREVENT + 1
+pygame.mixer.music.set_endevent(SONG_END)
 width, height = 1280, 720
 screen = pygame.display.set_mode((width, height))
 fps = 60
@@ -19,6 +24,7 @@ async def main():
         filename = pygame.image.load(os.path.join(f"{filename}.png")).convert_alpha()
         return filename
 
+    current_index = 0
     tomato = [load("tomato"), 50, 30, 5, 5, 60, 0]
     dill_pickle = [load("dill_pickle"), 5, 80, 5, 70, 20, 0]
     radicchio = [load("radicchio"), 5, 10, 90, 5, 15, 1]
@@ -42,7 +48,7 @@ async def main():
     ]
     carne_deshebrada = [
         load("carne_deshebrada"),
-        13,
+        15,
         70,
         10,
         65,
@@ -100,11 +106,15 @@ async def main():
                         for box in food_positions:
                             if mouse_pos[0] < box[1] + 201 and mouse_pos[0] >= box[0]:
                                 holding_item = foods_shown[food_positions.index(box)]
-
+            if event.type == SONG_END:
+                current_index = (current_index + 1) % len(playlist)
+                pygame.mixer.music.load(playlist[current_index])
+                pygame.mixer.music.play()
         screen.blit(taco, main_cooking_area[0])
         pygame.display.flip()
         fpsClock.tick(fps)
         await asyncio.sleep(0)
+    pygame.mixer.music.stop()
     pygame.quit()
 
 
