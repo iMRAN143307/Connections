@@ -24,7 +24,12 @@ async def main():
         filename = pygame.image.load(os.path.join(f"{filename}.png")).convert_alpha()
         return filename
 
+    def load_and_scale(filename):
+        unscaled = pygame.image.load(os.path.join(f"{filename}.png")).convert()
+        return pygame.transform.scale(unscaled, (1280, 720))
+
     current_index = 0
+    background = load_and_scale("background")
     tomato = [load("tomato"), 50, 30, 5, 5, 60, 0]
     dill_pickle = [load("dill_pickle"), 5, 80, 5, 70, 20, 0]
     radicchio = [load("radicchio"), 5, 10, 90, 5, 15, 1]
@@ -58,7 +63,17 @@ async def main():
         lemon,
     ]
     cowboy_candy = [None, 80, 60, 15, 50, 30, 2, pickled_jalapenos, honey]
-    radicchio_cream = [None, 15, 15, 70, 35, 55, 1, radicchio, guacamole]
+    radicchio_cream = [
+        load("radicchio_cream"),
+        15,
+        15,
+        70,
+        35,
+        55,
+        1,
+        radicchio,
+        guacamole,
+    ]
     shoyuzuke = [None, 25, 65, 10, 80, 80, 0, dill_pickle, soy_sauce]
     taco = load("taco")
     food_positions = [
@@ -80,7 +95,6 @@ async def main():
     running = True
 
     while running:
-        screen.fill((0, 0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -100,7 +114,7 @@ async def main():
                                 food_in_cooking_area.append(holding_item)
                                 holding_item = False
                                 print(
-                                    "To implement: add sprites and put down a sprite in this case"
+                                    "To implement: add cooking area sprites and put down a sprite in this case"
                                 )
                     if mouse_pos[1] < 237 and mouse_pos[1] > 35:
                         for box in food_positions:
@@ -110,7 +124,10 @@ async def main():
                 current_index = (current_index + 1) % len(playlist)
                 pygame.mixer.music.load(playlist[current_index])
                 pygame.mixer.music.play()
+        screen.blit(background, (0, 0))
         screen.blit(taco, main_cooking_area[0])
+        for i, food in enumerate(foods_shown):
+            screen.blit(food[0], food_positions[i])
         pygame.display.flip()
         fpsClock.tick(fps)
         await asyncio.sleep(0)
