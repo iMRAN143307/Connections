@@ -41,6 +41,7 @@ async def main():
     playlist = [song0, song1, song2]
     pygame.mixer.music.set_endevent(SONG_END)
     pygame.mixer.music.load(song0)
+    pygame.mixer.music.play()
     font = pygame.font.Font("Lato.ttf", 38)
     clear = 0
     to_say = []
@@ -329,12 +330,6 @@ async def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clickx, clicky = event.pos
                 if event.button == 1:
-                    if first_click:
-                        try:
-                            first_click = False
-                            pygame.mixer.music.play()
-                        except Exception:
-                            pass
                     if clicky >= 310 and clicky <= 410 and not intermission:
                         if mouse_pos[0] >= 64 and mouse_pos[0] <= 264:
                             if can_check != 0:
